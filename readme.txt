@@ -1,0 +1,1 @@
+https://grumpyoldpizza.github.io/arduino-STM32L4/package_STM32L4_boards_index.json
