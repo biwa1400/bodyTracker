@@ -1,4 +1,5 @@
 #include <Wire.h>
+#include<Arduino.h>
 #include "ICM20948.h"
 
 const uint8_t I2C_addr_ec = 0x0c; // I2C address for AK09916
@@ -12,7 +13,7 @@ Sensor::Sensor(uint8_t addr){
 
 
 void Sensor::printAddr(){
-  Serial.println(this->I2C_addr,HEX);
+ // Serial.println(this->I2C_addr,HEX);
 }
 
 void Sensor::init_sen(){
@@ -45,21 +46,26 @@ void Sensor::init_sen(){
     short accel_z= (buf[4]<<8)+buf[5];
 
     const float accel_sen = 16.384*1000;
-    float accel_x_g = accel_x/accel_sen;
-    float accel_y_g = accel_y/accel_sen;
-    float accel_z_g = accel_z/accel_sen;
+    accel_x_g = accel_x/accel_sen;
+    accel_y_g = accel_y/accel_sen;
+    accel_z_g = accel_z/accel_sen;
 
     short gyro_x= (buf[6]<<8)+buf[7];
     short gyro_y= (buf[8]<<8)+buf[9];
     short gyro_z= (buf[10]<<8)+buf[11];
 
     const float gyro_sen = 131;
-    float gyro_x_dps = gyro_x/gyro_sen;
-    float gyro_y_dps = gyro_y/gyro_sen;
-    float gyro_z_dps = gyro_z/gyro_sen;
+    
+    //float gyro_x_dps = gyro_x/gyro_sen;
+    gyro_x_dps = gyro_x/gyro_sen;
+    gyro_y_dps = gyro_y/gyro_sen;
+    gyro_z_dps = gyro_z/gyro_sen;
+
+  
+
 
     int temp= (buf[12]<<8)+buf[13];
-    float temp_c = temp/333.87+21;
+    temp_c = temp/333.87+21;
 
     short mag_x= (buf[15]<<8)+buf[14];
     short mag_y= (buf[17]<<8)+buf[16];
@@ -67,11 +73,12 @@ void Sensor::init_sen(){
 
     
     const float mag_unit = 0.15;
-    float mag_x_tesla = mag_x*mag_unit;
-    float mag_y_tesla = mag_y*mag_unit;
-    float mag_z_tesla = mag_z*mag_unit;
+    mag_x_tesla = mag_x*mag_unit;
+    mag_y_tesla = mag_y*mag_unit;
+    mag_z_tesla = mag_z*mag_unit;
 
-    Serial.println("");
+    addr = this->I2C_addr;
+/*
     Serial.print("Device address:");
     Serial.println(this->I2C_addr,HEX);
     Serial.print("accel/g:");
@@ -91,19 +98,25 @@ void Sensor::init_sen(){
     Serial.print(",z:");
     Serial.print(gyro_z_dps);
     Serial.println("");
-
+   
     Serial.print("temp:");
     Serial.print(temp_c);
     Serial.println("");
 
     Serial.print("mag: /uT");
     Serial.print("x:");
+          
     Serial.print(mag_x_tesla);
     Serial.print(",y:");
     Serial.print(mag_y_tesla);
+  
     Serial.print(",z:");
     Serial.print(mag_z_tesla);
     Serial.println("");
+    */
+
+//delay(1000);
+ //mag_z_tesla *= 1;
 }
 
 
